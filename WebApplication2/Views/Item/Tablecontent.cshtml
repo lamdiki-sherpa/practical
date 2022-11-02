@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["Title"] = "Table Content";
+    }
+    @model IEnumerable<WebApplication2.Models.Item>
+<html>
+   <head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication2.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/all.css"  asp-append-version="true">
+   </head>
+
+    <body>
+        
+<main class='body-section'>
+    
+<header>
+    <div style="background-color:yellow;color:black; text-align:center; padding:10px;">
+        <h3>MENU ITEMS</h3>
+       <span id='notifybtn'>0</span>
+       <a href='#order' id='orderbtn'>  ORDER </a>
+    </div>
+</header>
+
+  <!---<div class="tab-content" id="pills-tabContent" style="margin-top:20px;">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">------>
+<section class='container-fluid' id='menuList' style="margin-top:20px;">
+     <div class='row'>
+            @foreach(var i in Model)
+            {
+ <div class='col d-flex' id='menu-item'>
+<img src='~/img/image1.jpg' alt='image1'/>
+<div id='descriptionDiv'>
+    <h5>@i.Itemname</h5>
+    <h6>Rs.@i.Price</h6>
+    <button class='btnn' id='add'>Add</button>
+</div>
+</div> 
+ }</div>
+</section>
+<div class='cart-overlay' id='order'>
+   <div class='cart-item d-flex justify-content-between'>
+    <h5>Itemname</h5>
+    <h5> Quantity</h5>
+   </div>
+  
+<div class="total" style='float:right'>
+ <h4>TOTAL:RS.<span id="total">0</span></h4>
+ </div>
+ <div class='my-4'>
+     <button class='btn btn-dange' id='clear'>clear order</button>
+     <button class='btn btn-success'>purchase</button>
+ </div>
+ </div>
+ </main>
+  <script>
+ (function(){
+   let addbtn = document.querySelectorAll('#add')
+   addbtn.forEach(function(btn){
+       btn.addEventListener('click',function(event){
+           let newName = event.target.previousElementSibling.previousElementSibling.textContent;
+           let newPrice= event.target.previousElementSibling.textContent;
+           let finalPrice = newPrice.slice(3).trim()
+         const item ={}
+           item.name = newName;
+           item.price = finalPrice;
+           console.log(newName)
+           console.log(item)
+           const cartItem = document.createElement('div')
+           cartItem.classList.add('newDiv','d-flex')
+           cartItem.innerHTML=`
+           <div class='cart-content'>
+           <h6>${item.name}</h6>
+           <h6 class='cart-item-price'>${item.price}</h6> 
+           </div>
+           <div class='d-flex justify-content-between'>
+           <input type='number' class='input'/>
+           <button class=' remove'>remove</button>
+           </div>
+            <hr/>
+
+ `
+
+   const cart = document.getElementById('order')       
+   const total = document.querySelectorAll('.total')   
+   cart.insertBefore(cartItem,cart.children[1])
+   
+   alert('item added')
+     showTotals();   
+    let clear = document.getElementById('clear')
+    clear.addEventListener('click',function(){
+    cartItem.innerHTML=''
+    document.getElementById('total').textContent=0
+    document.getElementById('notifybtn').textContent=0;
+   })
+  
+   })
+   })
+   function showTotals(){
+      
+       const total =[];
+       const items = document.querySelectorAll('.cart-item-price')
+       items.forEach(function(item){
+       total.push(parseFloat(item.textContent));
+       })
+       const totalPrice = total.reduce(function(total,item){
+           total+= item;
+           return total;
+       },0)
+       const finalTotalPrice = totalPrice.toFixed(2);
+       document.getElementById('total').textContent= finalTotalPrice;
+       document.getElementById('notifybtn').textContent=total.length;
+
+   }
+   
+
+ })();
+ 
+ 
+ 
+  let cartOverlay = document.getElementById('order')
+  let orderbtn = document.getElementById('orderbtn')
+      orderbtn.addEventListener('click',function(){
+          cartOverlay.classList.toggle('show-cart')
+      })
+  </script>
+ </body>
+ </html>
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewData["Title"] = "All Items";
+}
+@model IEnumerable<WebApplication2.Models.Item>
+<div class="row justify-content-md-center admin-center">
+     <div class="col-8">
+         <h3 class="text-center">ALL ITEMS</h3>
+         <a class="btn btn-primary" asp-controller="Item" asp-action="Create">Create</a>
+         <hr/>
+            @if(TempData["error"] is not null){
+                <div class="alert alert-danger">@TempData["error"]</div>
+            }
+             @if(TempData["msg"] is not null){
+                <div class="alert alert-success">@TempData["msg"]</div>
+            }
+
+   <table style="width:100%" class='table table-border'>
+    <th>Item list</th>
+     <th>Price</th>
+    <th>Update</th>
+               <tbody>
+                    @foreach(var i in Model)
+                    {
+                    <tr>
+                      <td>
+                      <h6>@i.Itemname</h6>
+                     </td>
+                     <td><h6>Rs @i.Price</h6></td> 
+                     <td>
+                     <a class="btn btn-primary" asp-controller="Item" asp-action="Edit" asp-route-id="@i.Id">Edit</a> |
+                     <a class="btn btn-danger" asp-controller="Item" asp-action="Remove" asp-route-id="@i.Id">Remove</a>
+                     </td>
+                     </tr>
+                    }
+               </tbody> 
+                
+</table>
+         
+        </div>
+    </div>
+

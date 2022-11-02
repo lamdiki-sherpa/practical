@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Signup";
+}
+@model WebApplication2.Models.UserRegistration;
+<div class="container pt-5">
+    <div class="row justify-content-md-center">
+        <div class="col-6 border border-dark">
+            <h3 class="text-center">Sign Up</h3>
+            <hr/>
+            @if(TempData["error"] is not null){
+                <div class="alert alert-danger">@TempData["error"]</div>
+            }
+             @if(TempData["msg"] is not null){
+                <div class="alert alert-success">@TempData["msg"]</div>
+            }
+            <form method="post" class="p-3" asp-controller="Login" asp-action="Signup">
+                
+                 <div class='mb-3'>
+                    <label class='form-label' asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control"/>
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+               <div class='mb-3'>
+                    <label class='form-label' asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control"/>
+                    <span class="text-danger" asp-validation-for="Password"></span>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-success form-control">Sign Up</button>
+                <div class="row">
+                    <div class="col-md-auto pt-3">
+                        <p>Already have an account?</p>
+                        <a href="~/Login/login">Login</a>
+                    </div>                
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
